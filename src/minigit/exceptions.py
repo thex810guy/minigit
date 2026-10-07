@@ -15,3 +15,6 @@ class RepositoryCorrupted(RepositoryError):
 
 class RepositoryInitilizationError(RepositoryError):
     pass
+
+class PathNotFound(MinigitError):
+    pass

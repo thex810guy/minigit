@@ -16,7 +16,7 @@ class Repository:
         self.files = {
             "name": self.root / "NAME",
             "head": self.root / "HEAD",
-            "index": self.root / "index",
+            "index": self.root / "index.json", # TODO: switch from json to binary
         }
 
         self.directories = {
@@ -47,6 +47,13 @@ class Repository:
 
             for directory in self.directories.values():
                 directory.mkdir(parents=True, exist_ok=False)
+
+            # Defaults
+
+            self.files["name"].write_text(Path.cwd().name)
+            self.files["head"].write_text("master")
+            (self.directories["refs"] / "master.json").touch() # TODO: swtich from json to binary
+
         except FileExistsError as e:
             raise RepositoryAlreadyExistsError(".minigit already exists within the current working directory!") from e
         except OSError as e:
